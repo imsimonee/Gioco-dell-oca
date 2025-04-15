@@ -9,9 +9,7 @@ namespace Gioco_dell_oca
     internal class Program
     {
         static void Main(string[] args)
-        {
-            Console.WriteLine("Ciao");
-            Console.ReadKey();
+        {//123
         }
     }
 }

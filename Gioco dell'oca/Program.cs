@@ -10,6 +10,8 @@ namespace Gioco_dell_oca
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Ciao");
+            Console.ReadKey();
         }
     }
 }

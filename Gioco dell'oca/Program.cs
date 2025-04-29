@@ -10,6 +10,7 @@ namespace Gioco_dell_oca
     {
         static void Main(string[] args)
         {
+<<<<<<< HEAD
             string sceltaMod = "";
             string pedinaUno = "";
             string pedinaDue = "";
@@ -22,5 +23,12 @@ namespace Gioco_dell_oca
             int punteggioGDue = 0;
             bool turno=false;        }
         
+=======
+           
+            Console.WriteLine("pesce");
+                    
+            Console.ReadKey();
+        }
+>>>>>>> 076027a2a8d900bc6572e5dacb98611d0761f63b
     }
 }

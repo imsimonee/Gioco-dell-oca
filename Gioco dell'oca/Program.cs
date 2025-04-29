@@ -20,8 +20,7 @@ namespace Gioco_dell_oca
             int dadoDue = 0;
             int punteggioGUno = 0;
             int punteggioGDue = 0;
-            bool turno=false;
-        }
+            bool turno=false;        }
         
     }
 }

@@ -107,6 +107,31 @@ namespace Gioco_dell_oca
 
                 }
             }
+            static void StampaTabellone(int[] caselle, int pos1, int pos2)
+            {
+                //Stampo il tabellone e aggiorno le posizioni dei player
+                for (int i = 0; i < caselle.Length; i++)
+                {
+                    //Posizione dei player nel tabellone
+                    if (i == pos1 && i == pos2)
+                    {
+                        Console.Write("[X] "); //Entrambi i giocatori
+                    }
+                    else if (i == pos1)
+                    {
+                        Console.Write("[1] "); //Player 1
+                    }
+                    else if (i == pos2)
+                    {
+                        Console.Write("[2] "); //Player 2
+                    }
+                    else
+                    {
+                        Console.Write("[ ] "); //Casella vuota
+                    }
+                }
+                Console.WriteLine();
+            }
 
 
 

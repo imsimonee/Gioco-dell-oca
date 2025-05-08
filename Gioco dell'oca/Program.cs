@@ -10,7 +10,6 @@ namespace Gioco_dell_oca
     {
         static void Main(string[] args)
         {
-
             string sceltaMod = ""; //Scegli se giocare contro utente o pc
             string pedinaUno = "";
             string pedinaDue = "";
@@ -39,7 +38,7 @@ namespace Gioco_dell_oca
                     //Il player 1 ha vinto
                     if (posizioneUno >= campo.Length)
                     {
-                        posizioneUno = campo.Length;                 
+                        posizioneUno = campo.Length;
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
                     }
@@ -65,7 +64,7 @@ namespace Gioco_dell_oca
             Console.ReadKey();
         }
         static void BonusEMalus(int posizioneUno, int posizioneDue, int dadoUno, int dadoDue)
-        {            
+        {
             //bonus ponte
             if (posizioneUno == 6)
             {
@@ -81,7 +80,7 @@ namespace Gioco_dell_oca
             }
 
             //bonus oca
-            if (posizioneUno == 5 || posizioneUno == 10 || posizioneUno == 15 || posizioneUno == 20 || posizioneUno == 25 || posizioneUno == 30 || posizioneUno == 35 || posizioneUno == 40 || posizioneUno == 45 || posizioneUno == 50 || posizioneUno == 55 || posizioneUno == 60))
+            if (posizioneUno == 5 || posizioneUno == 10 || posizioneUno == 15 || posizioneUno == 20 || posizioneUno == 25 || posizioneUno == 30 || posizioneUno == 35 || posizioneUno == 40 || posizioneUno == 45 || posizioneUno == 50 || posizioneUno == 55 || posizioneUno == 60)
             {
                 Console.WriteLine("\r\n\r\n  .  .. ..  .  .. ..  .  .. ..  .  .. ..   @@@@@@@@@@@@@@ ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .@@@@@@@  .  .. ..@@@@@@@...  .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  . @@@@@.  .  .. ..  .  .. .. @@@@@. ..  .  .. ..  .  .. ..  .  .. ..\r\n................................@@@@............................@@@@ ...............................\r\n.. ..  .  .. ..  .  .. ..  .  @@@..  .  .. ..  .  .. ..  .  .. ..  @@@.. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. @@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@@.  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  @@#.. ..  .  .. ..  .  .. ..  .  .. ..  .  #@@..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  @@@..  .  .. -+  .  .. ..  .  .. ..+-.  .. ..  @@@.. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. .@@@.  .. ..@@@@@@@@@.  .  .. .. @@@@@@@@@  .  .. @@@ .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  ..@@. ..  . @@= ..  @@@.. ..  .  @@@..  .=@@. ..  . @@: ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. @@  .  .. @@@ .  .. @@  .  .. ..@@.  .. .@@@.  .. ..@@.  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .   @@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  . @@. ..  .  .. ..  .  .. ..  .  .. ..  . @@. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@   . @@@ ..  .  .. ..  .  .. ..  .  .. ..  .@@@. .. @@  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. :@@ .  .@@@.  .  .. ..  .  .. ..  .  .. .. @@@ .. .@@..  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  . @@@ ..   @@@. ..  .  .. ..  .  .. ..  . @@@ ..  .@@@. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..@@@  .. .@@@+  .. ..  .  .. ..  .  ..+@@@ .  ..@@@  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  ..@@#  .  .@@@@  .  .. ..  .  .. ..@@@@ .. ..#@@  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .@@@. ..  .-@@@@@.  .  .. .. @@@@@- ..  . @@@ ..  .  .. ..  .  .. ..  .  \r\n............................. @@@.........@@@@@@@@@@@@@@@@.........@@@..............................\r\n  .  .. ..  .  .. ..  .  .. ..  @@@@. ..  .  .. ..  .  .. ..  . @@@@..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. .@@@@@ .. ..  .  .. ..  .  .@@@@@ .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  .  ..:@@@@@@@.. ..  .  @@@@@@@:  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .  ...@@@@@@@@@@@@@@.  .. ..  .  .. ..  .  .. ..  .  .. ..  .  \r\n\r\n");
                 Console.WriteLine("BONUS:sei sulla casella oca:avanzi dello stesso numero di caselle di prima");
@@ -140,55 +139,59 @@ namespace Gioco_dell_oca
                 posizioneDue == 1;
             }
         }
-    }
-
-    static void StampaTabellone(int[] campo, int posizioneUno, int posizioneDue)
-    {
-        //Stampo il tabellone e aggiorno le posizioni dei player
-        for (int i = 0; i < campo.Length; i++)
+        static void StampaTabellone(int[] campo, int posizioneUno, int posizioneDue)
         {
-            //Posizione dei player nel tabellone
-            if (i == posizioneUno && i == posizioneDue)
+            //Stampo il tabellone e aggiorno le posizioni dei player
+            for (int i = 0; i < campo.Length; i++)
             {
-                Console.Write("[X] "); //Entrambi i giocatori
-            }
-            else if (i == posizioneUno)
-            {
-                Console.Write("[1] "); //Player 1
-            }
-            else if (i == posizioneDue)
-            {
-                Console.Write("[2] "); //Player 2
-            }
-            else
-            {
-                Console.Write("[ ] "); //Casella vuota
+                //Posizione dei player nel tabellone
+                if (i == posizioneUno && i == posizioneDue)
+                {
+                    Console.Write("[X] "); //Entrambi i giocatori
+                }
+                else if (i == posizioneUno)
+                {
+                    Console.Write("[1] "); //Player 1
+                }
+                else if (i == posizioneDue)
+                {
+                    Console.Write("[2] "); //Player 2
+                }
+                else
+                {
+                    Console.Write("[ ] "); //Casella vuota
+                }
             }
         }
-        static void DadoEdAvanzamento(int dadoUno, int dadoDue, bool turnoG1, bool turnoG2)
+        static void DadoEdAvanzamento(int dadoUno, int dadoDue, bool turnoG1, bool turnoG2, ref int posizioneUno, ref int posizioneDue)
         {
             //Se è turno di giocatore1 lancio il dado1
-            while (turnoG1)
+            if (turnoG1)
             {
-                Random rnd = new Random(DateTime.Now.Millisecond);
-                dadoUno = rnd.next(1, 7);
-                Console.WriteLine("giocatore1, in questo turno puoi fare  " + "" + dadoUno + "" + "salti");
-                //Aggiorno la posizione di giocatore1
-                posizioneUno = posizioneUno + dadoUno;
+                while (turnoG1)
+                {
+                    Random rnd = new Random(DateTime.Now.Millisecond);
+                    dadoUno = rnd.next(1, 7);
+                    Console.WriteLine("giocatore1, in questo turno puoi fare  " + "" + dadoUno + "" + "salti");
+                    //Aggiorno la posizione di giocatore1
+                    posizioneUno = posizioneUno + dadoUno;
+                    turnoG1 = false;
+                }
+            }
 
-            }
-            turnoG1 = false;
             else if (turnoG2)
-            while (turnoG2)
             {
-                //Se è turno di giocatore2 lancio il dado2
-                Random rnd = new Random(DateTime.Now.Millisecond);
-                dadoDue = rnd.next(1, 7);
-                Console.WriteLine("giocatore2, in questo turno puoi fare  " + "" + dadoDue + "" + "salti");
-                //Aggiorno la posizione di giocatore2
-                posizioneDue = posizioneDue + dadoDue;
+                while (turnoG2)
+                {
+                    //Se è turno di giocatore2 lancio il dado2
+                    Random rnd = new Random(DateTime.Now.Millisecond);
+                    dadoDue = rnd.next(1, 7);
+                    Console.WriteLine("giocatore2, in questo turno puoi fare  " + "" + dadoDue + "" + "salti");
+                    //Aggiorno la posizione di giocatore2
+                    posizioneDue = posizioneDue + dadoDue;
+                }
+                turnoG2 = false;
             }
-            turnoG2 = false;
         }
         static void Menù()
         {

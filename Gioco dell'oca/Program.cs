@@ -203,17 +203,18 @@ namespace Gioco_dell_oca
 
             //Menù con opzione per giocare
             Console.WriteLine("______                                 _                _   \r\n| ___ \\                               | |              | |  \r\n| |_/ / ___ _ ____   _____ _ __  _   _| |_ ___     __ _| |  \r\n| ___ \\/ _ \\ '_ \\ \\ / / _ \\ '_ \\| | | | __/ _ \\   / _` | |  \r\n| |_/ /  __/ | | \\ V /  __/ | | | |_| | || (_) | | (_| | |  \r\n\\____/ \\___|_| |_|\\_/ \\___|_| |_|\\__,_|\\__\\___/   \\__,_|_|  \r\n                                                            \r\n                                                            \r\n       _                       _      _ _ _                 \r\n      (_)                     | |    | | ( )                \r\n  __ _ _  ___   ___ ___     __| | ___| | |/  ___   ___ __ _ \r\n / _` | |/ _ \\ / __/ _ \\   / _` |/ _ \\ | |  / _ \\ / __/ _` |\r\n| (_| | | (_) | (_| (_) | | (_| |  __/ | | | (_) | (_| (_| |\r\n \\__, |_|\\___/ \\___\\___/   \\__,_|\\___|_|_|  \\___/ \\___\\__,_|\r\n  __/ |                                                     \r\n |___/                                                       vuoi giocare?(si)/(no)");
-            scelta =Console.ReadLine();
+            scelta = Console.ReadLine();
 
             if (scelta == "si")
             {
                 Console.WriteLine("Benvenuto nella partita!"); //Entrata nella partita
-                
+
             }
             else if (scelta == "no")
             {
                 Console.WriteLine("Arivederci!"); //Uscita dalla partita
             }
+        }
             static void Modalità()
             {
                 string sceltaModalita;
@@ -235,8 +236,8 @@ namespace Gioco_dell_oca
                         Console.WriteLine("hai scelto di giocare contro un giocatore? Wow!");
                     }
 
-            }
+                }
             
-        }
-    }
+            }
+    
 }

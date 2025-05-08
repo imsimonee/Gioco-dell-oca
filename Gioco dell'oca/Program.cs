@@ -241,6 +241,7 @@ namespace Gioco_dell_oca
         }
         static void SceltaPedina
         {
+            //riconosco modalità
 
         }
 

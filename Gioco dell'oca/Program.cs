@@ -13,9 +13,11 @@ namespace Gioco_dell_oca
             string sceltaMod = ""; //Scegli se giocare contro utente o pc
             string pedinaUno = "";
             string pedinaDue = "";
+            int sceltaGiocatoreUno = 0;
+            int sceltaGiocatoreDue = 0;
             int posizioneUno = 0; //Posizione player 1
             int posizioneDue = 0; //Posizione player 2
-            int campo[] = new int[63];
+            int[] campo = new int[63];
             int dadoUno = 0;
             int dadoDue = 0;
             int punteggioGUno = 0;
@@ -23,47 +25,83 @@ namespace Gioco_dell_oca
             int turno = 1; //Turno dei player
             int tiro = 0; //Tiro del dado
             bool fine = false; //Boleano per il ciclo while
+            Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, pedinaUno, pedinaDue);
 
-            while (fine)
-            {
-                //Lancio del dado (6 facce)
-                tiro = rnd.Next(1, 7);
-                Console.WriteLine("Hai tirato: " + tiro);
 
-                //Turno del player 1
-                if (turno == 1)
-                {
-                    //Il player 1 ha tirato il dado e si sposta di casella
-                    posizioneUno += tiro;
-                    //Il player 1 ha vinto
-                    if (posizioneUno >= campo.Length)
-                    {
-                        posizioneUno = campo.Length;
-                        fine = true;
-                        Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
-                    }
-                    //Finito il turno del player 1 tocca al player 2
-                    turno = 2;
-                }
-                //Turno del player 2
-                else
-                {
-                    //Il player 2 ha tirato il dado e si sposta di casella
-                    posizioneDue += tiro;
-                    //Il player 2 ha vinto
-                    if (posizioneDue >= campo.Length)
-                    {
-                        posizioneDue = campo.Length;
-                        fine = true;
-                        Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
-                    }
-                    //Finito il turno del player 2 tocca al player 1
-                    turno = 1;
-                }
-            }
             Console.ReadKey();
         }
-        static void BonusEMalus(int posizioneUno, int posizioneDue, int dadoUno, int dadoDue)
+        static void Pedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            string tipoUno = "☺";
+            string tipoDue = "♥";
+            string tipoTre = "♦";
+            string tipoQuattro = "♣";
+            string tipoCinque = "♠";
+            string tipoSei = "♫";
+            string tipoSette = "☼";
+            Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: "+ " 1) "+tipoUno+" 2) "+ tipoDue+ " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
+            
+            sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
+            switch (sceltaGiocatoreUno)
+            {
+                case (1):
+                    pedinaUno = tipoUno;
+                    break;
+                case (2):
+                    pedinaUno = tipoDue;
+                    break;
+                case (3):
+                    pedinaUno = tipoTre;
+                    break;
+                case (4):
+                    pedinaUno = tipoQuattro;
+                    break;
+                case (5):
+                    pedinaUno = tipoCinque;
+                    break;
+                case (6):
+                    pedinaUno = tipoSei;
+                    break;
+                case (7):
+                    pedinaUno = tipoSette;
+                    break;
+                default:
+                    Console.WriteLine("hai inserito un valore non valido");
+                    break;
+            }
+            Console.WriteLine("Giocatore2,scegli la tua pedina, tra le seguenti:" + "" + tipoUno + "" + tipoDue + "" + tipoTre + "" + tipoQuattro + "" + tipoCinque + "" + tipoSei + "" + tipoSette);
+            sceltaGiocatoreDue = Convert.ToInt32(Console.ReadLine());
+            switch (sceltaGiocatoreDue)
+            {
+                case (1):
+                    pedinaDue = tipoUno;
+                    break;
+                case (2):
+                    pedinaDue = tipoDue;
+                    break;
+                case (3):
+                    pedinaDue = tipoTre;
+                    break;
+                case (4):
+                    pedinaDue = tipoQuattro;
+                    break;
+                case (5):
+                    pedinaDue = tipoCinque;
+                    break;
+                case (6):
+                    pedinaDue = tipoSei;
+                    break;
+                case (7):
+                    pedinaDue = tipoSette;
+                    break;
+                default:
+                    Console.WriteLine("hai inserito un valore non valido");
+                    break;
+            }
+        }
+        static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue)
         {
             //bonus ponte
             if (posizioneUno == 6)
@@ -116,13 +154,13 @@ namespace Gioco_dell_oca
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
                 Console.WriteLine("MALUS:sei sulla casella labirinto: torni alla casella 39");
-                posizioneUno == 39;
+                posizioneUno -= 3;
             }
             else if (posizioneDue == 42)
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
                 Console.WriteLine("MALUS:sei sulla casella labirinto: torni alla casella 39");
-                posizioneDue == 39;
+                posizioneDue -= 3;
             }
 
             //malus scheletro
@@ -130,13 +168,13 @@ namespace Gioco_dell_oca
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
                 Console.WriteLine("MALUS:sei sulla casella scheletro: torni alla casella 1");
-                posizioneUno == 1;
+                posizioneUno = 1;
             }
             else if (posizioneDue == 58)
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
                 Console.WriteLine("MALUS:sei sulla casella scheletro: torni alla casella 1");
-                posizioneDue == 1;
+                posizioneDue = 1;
             }
         }
         static void StampaTabellone(int[] campo, int posizioneUno, int posizioneDue)
@@ -171,7 +209,7 @@ namespace Gioco_dell_oca
                 while (turnoG1)
                 {
                     Random rnd = new Random(DateTime.Now.Millisecond);
-                    dadoUno = rnd.next(1, 7);
+                    dadoUno = rnd.Next(1, 7);
                     Console.WriteLine("giocatore1, in questo turno puoi fare  " + "" + dadoUno + "" + "salti");
                     //Aggiorno la posizione di giocatore1
                     posizioneUno = posizioneUno + dadoUno;
@@ -185,7 +223,7 @@ namespace Gioco_dell_oca
                 {
                     //Se è turno di giocatore2 lancio il dado2
                     Random rnd = new Random(DateTime.Now.Millisecond);
-                    dadoDue = rnd.next(1, 7);
+                    dadoDue = rnd.Next(1, 7);
                     Console.WriteLine("giocatore2, in questo turno puoi fare  " + "" + dadoDue + "" + "salti");
                     //Aggiorno la posizione di giocatore2
                     posizioneDue = posizioneDue + dadoDue;
@@ -193,7 +231,7 @@ namespace Gioco_dell_oca
                 turnoG2 = false;
             }
         }
-        static void Menù()
+        static void Menù(int sceltaGiocatoreUno, int sceltaGiocatoreDue, string pedinaUno, string pedinaDue)
         {
             //Dichiaro la variabile "scelta" opzione per giocare(si/no)
             string scelta;
@@ -208,6 +246,7 @@ namespace Gioco_dell_oca
             if (scelta == "si")
             {
                 Console.WriteLine("Benvenuto nella partita!"); //Entrata nella partita
+                Modalità(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
 
             }
             else if (scelta == "no")
@@ -215,11 +254,11 @@ namespace Gioco_dell_oca
                 Console.WriteLine("Arivederci!"); //Uscita dalla partita
             }
         }
-        static void Modalità()
+        static void Modalità(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
-            string sceltaModalita;
-            Console.WriteLine("vuoi giocare contro il pc o contro un giocatore?(1(giocatore vs pc))/(2(giocatore vs giocatore))";
-            sceltaModalita = Console.ReadLine();
+            int sceltaModalità;
+            Console.WriteLine("vuoi giocare contro il pc o contro un giocatore?(1(giocatore vs pc))/(2(giocatore vs giocatore))");
+            sceltaModalità = Convert.ToInt32(Console.ReadLine());
 
             //sfondo giocatore 
             Console.WriteLine("(2(                                                 .:::::..                                           \r\n                                            ..:.  ...... .:..                                       \r\n                                          .:.  :-... ...:=...:.                                     \r\n                                         .:-:-:...:-::-::::--=:.                                    \r\n                                        ..-:-:+................-:.                                  \r\n                                        .:-..:                 .=.                                  \r\n                                       .:..: -                 .=.                                  \r\n                                       ..-:- -                 .=.                                  \r\n                                       ..:::...              ...-.                                  \r\n                                       .:...-.................:::.                                  \r\n                                        :... ..     .....    -...                                   \r\n                                        ..*=::.             ....                                    \r\n                                           ..-.            ..                                       \r\n                                              ::.         ..                                        \r\n                                          ..::::-.:.....::                                          \r\n                                  ....-:       ..       :. .-....                                   \r\n                                .:..           ...     .:.     ..:.                                 \r\n                              ...        ..-..:                   ...                               \r\n                             ...       .:.... .-                     ..                             \r\n                          :.        .:.     .::-:..                   :.                            \r\n                       .-..   ..-..::     ..    .:=:-.   ...:.         -.                           \r\n                   .:::...        .-      .:.:.   +..:=.:..:.:.        ..                           \r\n                 ..:.             :.       ..-=:.....::      .-.       .:.                          \r\n                .:.               .:    .::-.:.+      .....:.  ..        :.                         \r\n                ..              ...-... :=:.-   .:+:.. .--..   -..        .                         \r\n                .:           .:...:. .......       ..:-.       +....:.    :.                        \r\n                 .--:....::.::..  ...                =....    -.      .:.. :.                       \r\n                    ......        ...                .....   -.          .:..                       \r\n                                  .:.                   .....:.           ...                       \r\n                                  ...                         .:.          .-                       \r\n                                  ...                          .:.          +.                      \r\n                                  ...                          -.:-.      .::                       \r\n                                  ..                           .    .::::::.                        \r\n                                  ...                         :.                                    \r\n                                  ..::.                       :                                     \r\n  ..                                         .:::::::::::::::..                                     ))");
@@ -231,18 +270,18 @@ namespace Gioco_dell_oca
                 Console.WriteLine("hai scelto di giocare contro il pc!");
 
 
-                else if (sceltaModalità == 2)
-                {
-                    Console.WriteLine("hai scelto di giocare contro un giocatore? Wow!");
-                }
 
+
+            }
+            else if (sceltaModalità == 2)
+            {
+                Console.WriteLine("hai scelto di giocare contro un giocatore? Wow!");
+
+                Pedine(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
             }
 
         }
-        static void SceltaPedina
-        {
-            //riconosco modalità
 
-        }
 
     }
+}

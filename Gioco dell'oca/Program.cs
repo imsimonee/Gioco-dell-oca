@@ -11,22 +11,98 @@ namespace Gioco_dell_oca
         static void Main(string[] args)
         {
             string sceltaMod = ""; //Scegli se giocare contro utente o pc
-            string pedinaUno = "";
-            string pedinaDue = "";
+            string pedinaUno = ""; 
+            string pedinaDue = ""; 
             int sceltaGiocatoreUno = 0;
-            int sceltaGiocatoreDue = 0;
+            int sceltaGiocatoreDue = 0; 
             int posizioneUno = 0; //Posizione player 1
             int posizioneDue = 0; //Posizione player 2
-            int[] campo = new int[63];
-            int dadoUno = 0;
-            int dadoDue = 0;
+            int[] campo = new int[64]; //Vettore del campo di gioco
+            int dadoUno = 0; //Dado 1
+            int dadoDue = 0; //Dado 2
             int punteggioGUno = 0;
-            int punteggioGDue = 0;
+            int punteggioGDue = 0; 
             int turno = 1; //Turno dei player
             int tiro = 0; //Tiro del dado
+            int casellemancanti = 0; //Caselle mancanti per vincere
+            int rimbalzo = 0; //Rimbalzo del player
             bool fine = false; //Boleano per il ciclo while
+            Random rnd = new Random(); //Funzione RANDOM
+
+            //Richiamo la funzione del menù di gioco
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, pedinaUno, pedinaDue);
 
+            //Ciclo per spostarsi di caselle
+            while (!fine)
+            {
+                //Richiamo la funzione del tabellone
+                StampaTabellone(campo, posizioneUno, posizioneDue);
+
+                //Istruzioni
+                Console.WriteLine($"\nTurno del Giocatore {turno}. Premi INVIO per tirare il dado.");
+                Console.ReadLine();
+
+                // Lancio di due dadi (6 facce)
+                dadoUno = rnd.Next(1, 7);
+                dadoDue = rnd.Next(1, 7);
+                tiro = dadoUno + dadoDue;
+                Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
+
+                // Turno del player 1
+                if (turno == 1)
+                {
+                    //Calcolo le caselle mancati al traguardo
+                    casellemancanti = campo.Length - 1 - posizioneUno;
+                    //Se il tiro dei dadi è uguale alle caselle il player 1 ha vinto
+                    if (tiro == casellemancanti)
+                    {
+                        posizioneUno = campo.Length - 1;
+                        fine = true;
+                        Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
+                    }
+                    else
+                    {
+                        posizioneUno += tiro;
+                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro
+                        if (posizioneUno > campo.Length - 1)
+                        {
+                            rimbalzo = posizioneUno - campo.Length - 1;
+                            posizioneUno = campo.Length - 1 - rimbalzo;
+                            Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
+                        }
+                    }
+
+                    Console.WriteLine("Posizione Giocatore 1: " + posizioneUno);
+                    turno = 2;
+                }
+                // Turno del player 2
+                else
+                {
+                    //Calcolo le caselle mancati al traguardo
+                    casellemancanti = campo.Length - 1 - posizioneDue;
+                    //Se il tiro dei dadi è uguale alle caselle il player 2 ha vinto
+                    if (tiro == casellemancanti)
+                    {
+                        posizioneDue = campo.Length - 1;
+                        fine = true;
+                        Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
+                    }
+                    else
+                    {
+                        posizioneDue += tiro;
+                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro
+                        if (posizioneDue > campo.Length - 1)
+                        {
+                            rimbalzo = posizioneDue - campo.Length - 1;
+                            posizioneDue = campo.Length - 1 - rimbalzo;
+                            Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
+                        }
+                    }
+
+                    Console.WriteLine("Posizione Giocatore 2: " + posizioneDue);
+                    turno = 1;
+                }
+            }
 
             Console.ReadKey();
         }

@@ -32,19 +32,32 @@ namespace Gioco_dell_oca
 
             //Richiamo la funzione del menù di gioco
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, pedinaUno, pedinaDue);
-
-            StampaTabellone(campoStr,campo, posizioneUno, posizioneDue,pedinaUno, pedinaDue);
-            DadoEdAvanzamento(dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
+            RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);
+           
+            DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
 
 
 
             Console.ReadKey();
         }
-        static void RiempiCampoStringa(string[] campoStr)
+        static void RiempiCampoStringa(string[] campoStr,int posizioneUno,int posizioneDue,string pedinaUno,string pedinaDue)
         {
-            for(int i=0;i<campoStr.Length-1;i++) 
+            for (int i = 0; i < campoStr.Length - 1; i++)
             {
                 campoStr[i] = "[" + i + "]";
+                if(i==posizioneUno)
+                {
+                    campoStr[i] = "";
+                    campoStr[i] = pedinaUno;
+
+                }
+                else if (i==posizioneDue)
+                {
+                    campoStr[i] = "";
+                    campoStr[i] = pedinaDue;
+                }
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Console.Write(campoStr[i]);
             }
         }
         static void Pedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
@@ -195,7 +208,7 @@ namespace Gioco_dell_oca
                 posizioneDue = 1;
             }
         }
-        static void StampaTabellone(string[] campoStr,int[]campo, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
+        static void StampaTabellone(string[] campoStr, int[] campo, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
         {
             //Stampo il tabellone e aggiorno le posizioni dei player
             for (int i = 0; i < campo.Length; i++)
@@ -222,16 +235,16 @@ namespace Gioco_dell_oca
                 }
             }
         }
-        static void DadoEdAvanzamento(int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
+        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue ,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
             {
                 //Richiamo la funzione del tabellone
-                
+
 
                 //Istruzioni
-                Console.WriteLine($"\nTurno del Giocatore {turno}. Premi INVIO per tirare il dado.");
+                Console.WriteLine($"\nTurno del Giocatore 2 {turno}. Premi INVIO per tirare il dado.");
                 Console.ReadLine();
 
                 // Lancio di due dadi (6 facce)
@@ -240,6 +253,7 @@ namespace Gioco_dell_oca
                 dadoDue = rnd.Next(1, 7);
                 tiro = dadoUno + dadoDue;
                 Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
+                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
                 BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
                 // Turno del player 1
                 if (turno == false)

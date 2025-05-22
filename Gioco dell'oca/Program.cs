@@ -11,28 +11,41 @@ namespace Gioco_dell_oca
         static void Main(string[] args)
         {
             string sceltaMod = ""; //Scegli se giocare contro utente o pc
-            string pedinaUno = ""; 
-            string pedinaDue = ""; 
+            string pedinaUno = "";
+            string pedinaDue = "";
             int sceltaGiocatoreUno = 0;
-            int sceltaGiocatoreDue = 0; 
+            int sceltaGiocatoreDue = 0;
             int posizioneUno = 0; //Posizione player 1
             int posizioneDue = 0; //Posizione player 2
             int[] campo = new int[64]; //Vettore del campo di gioco
             int dadoUno = 0; //Dado 1
             int dadoDue = 0; //Dado 2
             int punteggioGUno = 0;
-            int punteggioGDue = 0; 
-            int turno = 1; //Turno dei player
+            int punteggioGDue = 0;
+            bool turno = false; //Turno dei player
             int tiro = 0; //Tiro del dado
             int casellemancanti = 0; //Caselle mancanti per vincere
             int rimbalzo = 0; //Rimbalzo del player
             bool fine = false; //Boleano per il ciclo while
+            string[] campoStr = new string[64];
             Random rnd = new Random(); //Funzione RANDOM
 
             //Richiamo la funzione del menù di gioco
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, pedinaUno, pedinaDue);
 
+            StampaTabellone(campoStr,campo, posizioneUno, posizioneDue,pedinaUno, pedinaDue);
+            DadoEdAvanzamento(dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
+
+
+
             Console.ReadKey();
+        }
+        static void RiempiCampoStringa(string[] campoStr)
+        {
+            for(int i=0;i<campoStr.Length-1;i++) 
+            {
+                campoStr[i] = "[" + i + "]";
+            }
         }
         static void Pedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
@@ -45,8 +58,8 @@ namespace Gioco_dell_oca
             string tipoCinque = "♠";
             string tipoSei = "♫";
             string tipoSette = "☼";
-            Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: "+ " 1) "+tipoUno+" 2) "+ tipoDue+ " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
-            
+            Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
+
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
             switch (sceltaGiocatoreUno)
             {
@@ -103,6 +116,7 @@ namespace Gioco_dell_oca
                 default:
                     Console.WriteLine("hai inserito un valore non valido");
                     break;
+
             }
         }
         static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue)
@@ -181,7 +195,7 @@ namespace Gioco_dell_oca
                 posizioneDue = 1;
             }
         }
-        static void StampaTabellone(int[] campo, int posizioneUno, int posizioneDue)
+        static void StampaTabellone(string[] campoStr,int[]campo, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
         {
             //Stampo il tabellone e aggiorno le posizioni dei player
             for (int i = 0; i < campo.Length; i++)
@@ -189,44 +203,48 @@ namespace Gioco_dell_oca
                 //Posizione dei player nel tabellone
                 if (i == posizioneUno && i == posizioneDue)
                 {
-                    Console.Write("[X] "); //Entrambi i giocatori
+                    Console.Write("[]"); //Entrambi i giocatori
                 }
                 else if (i == posizioneUno)
                 {
-                    Console.Write("[1] "); //Player 1
+
+                    campoStr[i] = pedinaUno; //Player 1
+                    Console.WriteLine(campoStr[i]);
                 }
                 else if (i == posizioneDue)
                 {
-                    Console.Write("[2] "); //Player 2
+                    campoStr[i] = pedinaDue; //Player 2
+                    Console.WriteLine(campo[i]);
                 }
                 else
                 {
-                    Console.Write("[ ] "); //Casella vuota
+                    Console.Write("[" + i + "]"); //Casella vuota
                 }
             }
         }
-        static void DadoEdAvanzamento(int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[]campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
+        static void DadoEdAvanzamento(int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
             {
                 //Richiamo la funzione del tabellone
-                StampaTabellone(campo, posizioneUno, posizioneDue);
+                
 
                 //Istruzioni
                 Console.WriteLine($"\nTurno del Giocatore {turno}. Premi INVIO per tirare il dado.");
                 Console.ReadLine();
 
                 // Lancio di due dadi (6 facce)
-                Random rnd = new Random();  
+                Random rnd = new Random();
                 dadoUno = rnd.Next(1, 7);
                 dadoDue = rnd.Next(1, 7);
                 tiro = dadoUno + dadoDue;
                 Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
-
+                BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
                 // Turno del player 1
                 if (turno == false)
                 {
+
                     //Calcolo le caselle mancati al traguardo
                     casellemancanti = campo.Length - 1 - posizioneUno;
                     //Se il tiro dei dadi è uguale alle caselle il player 1 ha vinto
@@ -317,6 +335,7 @@ namespace Gioco_dell_oca
             if (sceltaModalità == 1)
             {
                 Console.WriteLine("hai scelto di giocare contro il pc!");
+                SceltaPc(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
 
 
 
@@ -330,7 +349,80 @@ namespace Gioco_dell_oca
             }
 
         }
+        static void SceltaPc(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            string tipoUno = "☺";
+            string tipoDue = "♥";
+            string tipoTre = "♦";
+            string tipoQuattro = "♣";
+            string tipoCinque = "♠";
+            string tipoSei = "♫";
+            string tipoSette = "☼";
+            Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
+
+            sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
+            switch (sceltaGiocatoreUno)
+            {
+                case (1):
+                    pedinaUno = tipoUno;
+                    break;
+                case (2):
+                    pedinaUno = tipoDue;
+                    break;
+                case (3):
+                    pedinaUno = tipoTre;
+                    break;
+                case (4):
+                    pedinaUno = tipoQuattro;
+                    break;
+                case (5):
+                    pedinaUno = tipoCinque;
+                    break;
+                case (6):
+                    pedinaUno = tipoSei;
+                    break;
+                case (7):
+                    pedinaUno = tipoSette;
+                    break;
+                default:
+                    Console.WriteLine("hai inserito un valore non valido");
+                    break;
+            }
+            Random rnd = new Random();
+            sceltaGiocatoreDue = rnd.Next(1, 8);
+            switch (sceltaGiocatoreDue)
+            {
+                case (1):
+                    pedinaDue = tipoUno;
+                    break;
+                case (2):
+                    pedinaDue = tipoDue;
+                    break;
+                case (3):
+                    pedinaDue = tipoTre;
+                    break;
+                case (4):
+                    pedinaDue = tipoQuattro;
+                    break;
+                case (5):
+                    pedinaDue = tipoCinque;
+                    break;
+                case (6):
+                    pedinaDue = tipoSei;
+                    break;
+                case (7):
+                    pedinaDue = tipoSette;
+                    break;
+                default:
+                    break;
+
+            }
+            Console.WriteLine("il Pc ha scelto" + sceltaGiocatoreDue);
 
 
+
+        }
     }
 }

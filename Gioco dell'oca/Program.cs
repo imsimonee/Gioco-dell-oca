@@ -31,7 +31,7 @@ namespace Gioco_dell_oca
             Random rnd = new Random(); //Funzione RANDOM
 
             //Richiamo la funzione del menù di gioco
-            Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, pedinaUno, pedinaDue);
+            Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, ref pedinaUno, ref pedinaDue);
             RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);
            
             DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
@@ -48,18 +48,19 @@ namespace Gioco_dell_oca
                 if(i==posizioneUno)
                 {
                     campoStr[i] = "";
-                    campoStr[i] = pedinaUno;
+                    campoStr[i] = "["+pedinaUno+"]";
 
                 }
                 else if (i==posizioneDue)
                 {
                     campoStr[i] = "";
-                    campoStr[i] = pedinaDue;
+                    campoStr[i] = "[" + pedinaDue+"]";
                 }
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
                 Console.Write(campoStr[i]);
             }
         }
+
         static void Pedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -253,11 +254,15 @@ namespace Gioco_dell_oca
                 dadoDue = rnd.Next(1, 7);
                 tiro = dadoUno + dadoDue;
                 Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
-                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
-                BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
+               
+                
+
+               
                 // Turno del player 1
                 if (turno == false)
                 {
+                    posizioneUno += dadoUno;
+                    posizioneUno += dadoDue;
 
                     //Calcolo le caselle mancati al traguardo
                     casellemancanti = campo.Length - 1 - posizioneUno;
@@ -286,12 +291,14 @@ namespace Gioco_dell_oca
                 // Turno del player 2
                 else
                 {
+                    posizioneDue += dadoUno;
+                    posizioneDue += dadoDue;
                     //Calcolo le caselle mancati al traguardo
                     casellemancanti = campo.Length - 1 - posizioneDue;
                     //Se il tiro dei dadi è uguale alle caselle il player 2 ha vinto
                     if (tiro == casellemancanti)
                     {
-                        posizioneDue = campo.Length - 1;
+                        posizioneDue = campo.Length -1;
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
                     }
@@ -310,9 +317,12 @@ namespace Gioco_dell_oca
                     Console.WriteLine("Posizione Giocatore 2: " + posizioneDue);
                     turno = false;
                 }
+                BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
+                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
+               
             }
         }
-        static void Menù(int sceltaGiocatoreUno, int sceltaGiocatoreDue, string pedinaUno, string pedinaDue)
+        static void Menù(int sceltaGiocatoreUno, int sceltaGiocatoreDue, ref string pedinaUno,ref  string pedinaDue)
         {
             //Dichiaro la variabile "scelta" opzione per giocare(si/no)
             string scelta;

@@ -33,39 +33,59 @@ namespace Gioco_dell_oca
 
             //Richiamo la funzione del menù di gioco
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, ref pedinaUno, ref pedinaDue);
-            RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);
-           
+            RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);          
             DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
-
-
 
             Console.ReadKey();
         }
-        static void RiempiCampoStringa(string[] campoStr,int posizioneUno,int posizioneDue,string pedinaUno,string pedinaDue)
-        {
-            for (int i = 0; i < campoStr.Length - 1; i++)
-            {
-                campoStr[i] = "[" + i + "]";
-                if(i==posizioneUno)
-                {
-                    campoStr[i] = "";
-                    campoStr[i] = "["+pedinaUno+"]";
 
-                }
-                else if (i==posizioneDue)
+        /// <summary>
+        /// Riempie il tabellone con le posizioni dei giocatori e stampa a video
+        /// </summary>
+        /// <param name="campoStr">vettore di stringhe del tabellone</param>
+        /// <param name="posizioneUno">posizione attuale del giocatore 1</param>
+        /// <param name="posizioneDue">posizione attuale del giocatore 2</param>
+        /// <param name="pedinaUno">pedina del giocatore 1</param>
+        /// <param name="pedinaDue">pedina del giocatore 2</param>
+        static void RiempiCampoStringa(string[] campoStr, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            for (int i = 0; i < campoStr.Length; i++)
+            {
+                if (i == posizioneUno && i == posizioneDue)
                 {
-                    campoStr[i] = "";
-                    campoStr[i] = "[" + pedinaDue+"]";
+                    campoStr[i] = "[X]"; //Entrambi i player sulla stessa casella
                 }
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                else if (i == posizioneUno)
+                {
+                    campoStr[i] = "[" + pedinaUno + "]"; //Posizione del player 1
+                }
+                else if (i == posizioneDue)
+                {
+                    campoStr[i] = "[" + pedinaDue + "]"; //Posizione del player 2
+                }
+                else
+                {
+                    campoStr[i] = "[" + i + "]"; //Casella normale
+                }
+
                 Console.Write(campoStr[i]);
             }
         }
 
+        /// <summary>
+        /// Permette ai giocatori di scegliere le proprie pedine
+        /// </summary>
+        /// <param name="pedinaUno">pedina del giocatore 1</param>
+        /// <param name="pedinaDue">pedina del giocatore 2</param>
+        /// <param name="sceltaGiocatoreUno">scelta del giocatore 1</param>
+        /// <param name="sceltaGiocatoreDue">scelta del giocatore 2</param>
         static void Pedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            //Pedine disponibili
             string tipoUno = "☺";
             string tipoDue = "♥";
             string tipoTre = "♦";
@@ -73,6 +93,8 @@ namespace Gioco_dell_oca
             string tipoCinque = "♠";
             string tipoSei = "♫";
             string tipoSette = "☼";
+            
+            //Scelta pedina player 1
             Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
 
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
@@ -103,6 +125,8 @@ namespace Gioco_dell_oca
                     Console.WriteLine("hai inserito un valore non valido");
                     break;
             }
+            
+            //Scelta pedina player 2
             Console.WriteLine("Giocatore2,scegli la tua pedina, tra le seguenti:" + "1) " + tipoUno + "2) " + tipoDue + "3) " + tipoTre + "4) " + tipoQuattro + "5) " + tipoCinque + "6) " + tipoSei + "7) " + tipoSette);
             sceltaGiocatoreDue = Convert.ToInt32(Console.ReadLine());
             switch (sceltaGiocatoreDue)
@@ -131,12 +155,19 @@ namespace Gioco_dell_oca
                 default:
                     Console.WriteLine("hai inserito un valore non valido");
                     break;
-
             }
         }
+
+        /// <summary>
+        /// Applica bonus e malus in base alla posizione attuale dei giocatori
+        /// </summary>
+        /// <param name="posizioneUno">posizione giocatore 1</param>
+        /// <param name="posizioneDue">posizione giocatore 2</param>
+        /// <param name="dadoUno">valore del primo dado</param>
+        /// <param name="dadoDue">valore del secondo dado</param>
         static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue)
         {
-            //bonus ponte
+            //Casella ponte avanza alla casella 12
             if (posizioneUno == 6)
             {
                 Console.WriteLine("\r\n\r\n  .  .. ..  .  .. ..  .  .. ..  .  .. ..   @@@@@@@@@@@@@@ ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .@@@@@@@  .  .. ..@@@@@@@...  .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  . @@@@@.  .  .. ..  .  .. .. @@@@@. ..  .  .. ..  .  .. ..  .  .. ..\r\n................................@@@@............................@@@@ ...............................\r\n.. ..  .  .. ..  .  .. ..  .  @@@..  .  .. ..  .  .. ..  .  .. ..  @@@.. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. @@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@@.  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  @@#.. ..  .  .. ..  .  .. ..  .  .. ..  .  #@@..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  @@@..  .  .. -+  .  .. ..  .  .. ..+-.  .. ..  @@@.. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. .@@@.  .. ..@@@@@@@@@.  .  .. .. @@@@@@@@@  .  .. @@@ .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  ..@@. ..  . @@= ..  @@@.. ..  .  @@@..  .=@@. ..  . @@: ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. @@  .  .. @@@ .  .. @@  .  .. ..@@.  .. .@@@.  .. ..@@.  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .   @@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  . @@. ..  .  .. ..  .  .. ..  .  .. ..  . @@. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@   . @@@ ..  .  .. ..  .  .. ..  .  .. ..  .@@@. .. @@  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. :@@ .  .@@@.  .  .. ..  .  .. ..  .  .. .. @@@ .. .@@..  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  . @@@ ..   @@@. ..  .  .. ..  .  .. ..  . @@@ ..  .@@@. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..@@@  .. .@@@+  .. ..  .  .. ..  .  ..+@@@ .  ..@@@  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  ..@@#  .  .@@@@  .  .. ..  .  .. ..@@@@ .. ..#@@  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .@@@. ..  .-@@@@@.  .  .. .. @@@@@- ..  . @@@ ..  .  .. ..  .  .. ..  .  \r\n............................. @@@.........@@@@@@@@@@@@@@@@.........@@@..............................\r\n  .  .. ..  .  .. ..  .  .. ..  @@@@. ..  .  .. ..  .  .. ..  . @@@@..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. .@@@@@ .. ..  .  .. ..  .  .@@@@@ .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  .  ..:@@@@@@@.. ..  .  @@@@@@@:  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .  ...@@@@@@@@@@@@@@.  .. ..  .  .. ..  .  .. ..  .  .. ..  .  \r\n\r\n");
@@ -150,7 +181,7 @@ namespace Gioco_dell_oca
                 posizioneDue = 12;
             }
 
-            //bonus oca
+            //Casella oca avanza dello stesso numero di caselle di prima
             if (posizioneUno == 5 || posizioneUno == 10 || posizioneUno == 15 || posizioneUno == 20 || posizioneUno == 25 || posizioneUno == 30 || posizioneUno == 35 || posizioneUno == 40 || posizioneUno == 45 || posizioneUno == 50 || posizioneUno == 55 || posizioneUno == 60)
             {
                 Console.WriteLine("\r\n\r\n  .  .. ..  .  .. ..  .  .. ..  .  .. ..   @@@@@@@@@@@@@@ ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .@@@@@@@  .  .. ..@@@@@@@...  .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  . @@@@@.  .  .. ..  .  .. .. @@@@@. ..  .  .. ..  .  .. ..  .  .. ..\r\n................................@@@@............................@@@@ ...............................\r\n.. ..  .  .. ..  .  .. ..  .  @@@..  .  .. ..  .  .. ..  .  .. ..  @@@.. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. @@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@@.  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  @@#.. ..  .  .. ..  .  .. ..  .  .. ..  .  #@@..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  @@@..  .  .. -+  .  .. ..  .  .. ..+-.  .. ..  @@@.. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. .@@@.  .. ..@@@@@@@@@.  .  .. .. @@@@@@@@@  .  .. @@@ .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  ..@@. ..  . @@= ..  @@@.. ..  .  @@@..  .=@@. ..  . @@: ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. @@  .  .. @@@ .  .. @@  .  .. ..@@.  .. .@@@.  .. ..@@.  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .   @@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  .  .. ..  .  .. ..  .  .. ..  .  .. ..  .  .. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@.  . @@. ..  .  .. ..  .  .. ..  .  .. ..  . @@. .. @@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  @@ .. .@@ .  .. ..  .  .. ..  .  .. ..  .  .. .@@ .  .@@..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  ..@@   . @@@ ..  .  .. ..  .  .. ..  .  .. ..  .@@@. .. @@  .. ..  .  .. ..  .  \r\n.. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .@@.. ..@@@  .. ..  .  .. ..  .  .. ..  .  ..@@@  .  @@ ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. :@@ .  .@@@.  .  .. ..  .  .. ..  .  .. .. @@@ .. .@@..  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  . @@@ ..   @@@. ..  .  .. ..  .  .. ..  . @@@ ..  .@@@. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..@@@  .. .@@@+  .. ..  .  .. ..  .  ..+@@@ .  ..@@@  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  ..@@#  .  .@@@@  .  .. ..  .  .. ..@@@@ .. ..#@@  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .@@@. ..  .-@@@@@.  .  .. .. @@@@@- ..  . @@@ ..  .  .. ..  .  .. ..  .  \r\n............................. @@@.........@@@@@@@@@@@@@@@@.........@@@..............................\r\n  .  .. ..  .  .. ..  .  .. ..  @@@@. ..  .  .. ..  .  .. ..  . @@@@..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. .@@@@@ .. ..  .  .. ..  .  .@@@@@ .  .. ..  .  .. ..  .  .. ..  .  \r\n  .  .. ..  .  .. ..  .  .. ..  .  ..:@@@@@@@.. ..  .  @@@@@@@:  .. ..  .  .. ..  .  .. ..  .  .. ..\r\n.. ..  .  .. ..  .  .. ..  .  .. ..  .  ...@@@@@@@@@@@@@@.  .. ..  .  .. ..  .  .. ..  .  .. ..  .  \r\n\r\n");
@@ -167,7 +198,7 @@ namespace Gioco_dell_oca
                 posizioneDue += dadoDue;
             }
 
-            //malus locanda
+            //Casella locanda perdi un turno
             if (posizioneUno == 19)
             {
                 posizioneUno += 0;
@@ -181,8 +212,7 @@ namespace Gioco_dell_oca
                 posizioneDue += 0;
             }
 
-
-            //malus labirinto
+            //Casella labirinto torna alla casella 39
             if (posizioneUno == 42)
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
@@ -196,7 +226,7 @@ namespace Gioco_dell_oca
                 posizioneDue -= 3;
             }
 
-            //malus scheletro
+            //Casella scheletro ritorna all'inizio
             if (posizioneUno == 58)
             {
                 Console.WriteLine("\r\n\r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                         .-*@@@@@@@@@@@@*-                                          \r\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \r\n                               .:@@@@@@@#-                -%@@@@@@@:                                \r\n                             .@@@@@%-                          -%@@@@@.                             \r\n                           -@@@@%.                                .%@@@@-                           \r\n                         :@@@@=                                      =@@@@:                         \r\n                       .%@@@-                                          -@@@%.                       \r\n                      :@@@*                                              *@@@:                      \r\n                     +@@@:                                                :@@@+                     \r\n                    *@@@.                                                  .@@@*                    \r\n                   =@@@.                                                    .@@@=                   \r\n                  .@@@                                                        @@@.                  \r\n                  @@@-                                                        :@@@                  \r\n                 =@@@                                                          %@@=                 \r\n                 @@@-                                                          :@@@                 \r\n                :@@@.                                                           @@@:                \r\n                +@@#                                                            #@@*                \r\n                #@@+                                                            =@@#                \r\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \r\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \r\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \r\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \r\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \r\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \r\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \r\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \r\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \r\n                -@@%                          =@@@@@@+                          %@@-                \r\n                *@@*                         .@@@@@@@@.                         *@@*                \r\n                +@@#                         +@@@@@@@@+                         *@@*                \r\n                :@@@                         %@@@@@@@@%                         %@@:                \r\n                 @@@+                        .@@@::@@@.                        +@@@                 \r\n                  @@@@                                                        @@@@                  \r\n                   +@@@@*.                                                .*@@@@*                   \r\n                     =@@@@@+.                                          .+@@@@@=                     \r\n                        =@@@@*                                        +@@@@=                        \r\n                          .@@@%                                      %@@@.                          \r\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \r\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \r\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \r\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \r\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \r\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \r\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \r\n                                        .@@@@@@*.  .*@@@@@@.                                        \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n                                                                                                    \r\n\r\n");
@@ -210,6 +240,16 @@ namespace Gioco_dell_oca
                 posizioneDue = 1;
             }
         }
+
+        /// <summary>
+        /// Stampa lo stato attuale del tabellone con le posizioni dei giocatori
+        /// </summary>
+        /// <param name="campoStr">vettore stringhe tabellone</param>
+        /// <param name="campo">vettore campo numerico</param>
+        /// <param name="posizioneUno">posizione giocatore 1</param>
+        /// <param name="posizioneDue">posizione giocatore 2</param>
+        /// <param name="pedinaUno">pedina giocatore 1</param>
+        /// <param name="pedinaDue">pedina giocatore 2</param>
         static void StampaTabellone(string[] campoStr, int[] campo, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
         {
             //Stampo il tabellone e aggiorno le posizioni dei player
@@ -222,7 +262,6 @@ namespace Gioco_dell_oca
                 }
                 else if (i == posizioneUno)
                 {
-
                     campoStr[i] = pedinaUno; //Player 1
                     Console.WriteLine(campoStr[i]);
                 }
@@ -237,38 +276,49 @@ namespace Gioco_dell_oca
                 }
             }
         }
+
+        /// <summary>
+        /// Gestisce il tiro dei dadi e l'avanzamento dei giocatori
+        /// </summary>
+        /// <param name="campoStr">campo stringa</param>
+        /// <param name="pedinaUno">pedina del giocatore 1</param>
+        /// <param name="pedinaDue">pedina del giocatore 2</param>
+        /// <param name="dadoUno">valore primo dado</param>
+        /// <param name="dadoDue">valore secondo dado</param>
+        /// <param name="rimbalzo">caselle di rimbalzo oltre il traguardo</param>
+        /// <param name="fine">fine partita</param>
+        /// <param name="turno">turno dei giocatori</param>
+        /// <param name="tiro">somma dadi</param>
+        /// <param name="campo">vettore campo</param>
+        /// <param name="casellemancanti">caselle rimanenti al traguardo</param>
+        /// <param name="posizioneUno">posizione attuale player 1</param>
+        /// <param name="posizioneDue">posizione attuale player 2</param>
         static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue ,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
             {
-                //Richiamo la funzione del tabellone
-
-
                 //Istruzioni
                 Console.WriteLine($"\nTurno del Giocatore 1 {!turno}.");
                 Console.WriteLine($"\nTurno del Giocatore 2 {turno}.");
                 Console.WriteLine("premi INVIO per tirare il dado");
                 Console.ReadLine();
 
-                // Lancio di due dadi (6 facce)
+                //Lancio di due dadi (6 facce)
                 Random rnd = new Random();
                 dadoUno = rnd.Next(1, 7);
                 dadoDue = rnd.Next(1, 7);
                 tiro = dadoUno + dadoDue;
-                Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
+                Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);           
                
-                
-
-               
-                // Turno del player 1
+                //Turno del player 1
                 if (turno == false)
                 {
-                    posizioneUno += dadoUno;
-                    posizioneUno += dadoDue;
+                    posizioneUno += tiro;
 
                     //Calcolo le caselle mancati al traguardo
                     casellemancanti = campo.Length - 1 - posizioneUno;
+                    
                     //Se il tiro dei dadi è uguale alle caselle il player 1 ha vinto
                     if (tiro == casellemancanti)
                     {
@@ -277,12 +327,11 @@ namespace Gioco_dell_oca
                         Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
                     }
                     else
-                    {
-                        posizioneUno += tiro;
+                    {                  
                         //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro
                         if (posizioneUno > campo.Length - 1)
                         {
-                            rimbalzo = posizioneUno - campo.Length - 1;
+                            rimbalzo = posizioneUno - (campo.Length - 1);
                             posizioneUno = campo.Length - 1 - rimbalzo;
                             Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                         }
@@ -291,13 +340,15 @@ namespace Gioco_dell_oca
                     Console.WriteLine("Posizione Giocatore 1: " + posizioneUno);
                     turno = true;
                 }
+                
                 // Turno del player 2
                 else
                 {
-                    posizioneDue += dadoUno;
-                    posizioneDue += dadoDue;
-                    //Calcolo le caselle mancati al traguardo
+                    posizioneUno += tiro;
+
+                    //Calcolo le caselle mancati al traguardo                   
                     casellemancanti = campo.Length - 1 - posizioneDue;
+                    
                     //Se il tiro dei dadi è uguale alle caselle il player 2 ha vinto
                     if (tiro == casellemancanti)
                     {
@@ -306,12 +357,11 @@ namespace Gioco_dell_oca
                         Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
                     }
                     else
-                    {
-                        posizioneDue += tiro;
-                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro
+                    {                       
+                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro                        
                         if (posizioneDue > campo.Length - 1)
                         {
-                            rimbalzo = posizioneDue - campo.Length - 1;
+                            rimbalzo = posizioneUno - (campo.Length - 1);
                             posizioneDue = campo.Length - 1 - rimbalzo;
                             Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                         }
@@ -320,11 +370,19 @@ namespace Gioco_dell_oca
                     Console.WriteLine("Posizione Giocatore 2: " + posizioneDue);
                     turno = false;
                 }
+                
                 BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
-                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
-               
+                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);              
             }
         }
+
+        /// <summary>
+        /// Mostra il menù iniziale e gestisce l'avvio della partita
+        /// </summary>
+        /// <param name="sceltaGiocatoreUno">scelta del giocatore 1</param>
+        /// <param name="sceltaGiocatoreDue">scelta del giocatore 2</param>
+        /// <param name="pedinaUno">pedina del giocatore 1</param>
+        /// <param name="pedinaDue">pedina del giocatore 2</param>
         static void Menù(int sceltaGiocatoreUno, int sceltaGiocatoreDue, ref string pedinaUno,ref  string pedinaDue)
         {
             //Dichiaro la variabile "scelta" opzione per giocare(si/no)
@@ -339,52 +397,57 @@ namespace Gioco_dell_oca
 
             if (scelta == "si")
             {
-                Console.WriteLine("Benvenuto nella partita!"); //Entrata nella partita
+                //Entrata nella partita
+                Console.WriteLine("Benvenuto nella partita!");
                 Modalità(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
-
             }
             else if (scelta == "no")
             {
-                Console.WriteLine("Arivederci!"); //Uscita dalla partita
+                //Uscita dalla partita
+                Console.WriteLine("Arivederci!");
             }
         }
+
+        /// <summary>
+        /// Permette di scegliere se giocare contro il PC o contro un altro giocatore
+        /// </summary>
+        /// <param name="pedinaUno">pedina del giocatore 1</param>
+        /// <param name="pedinaDue">pedina del giocatore 2</param>
+        /// <param name="sceltaGiocatoreUno">scelta giocatore 1</param>
+        /// <param name="sceltaGiocatoreDue">scelta giocatore 2</param>
         static void Modalità(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
             int sceltaModalità;
             Console.WriteLine("vuoi giocare contro il pc o contro un giocatore?(1(giocatore vs pc))/(2(giocatore vs giocatore))");
-            sceltaModalità = Convert.ToInt32(Console.ReadLine());
+            sceltaModalità = Convert.ToInt32(Console.ReadLine());           
 
-            //sfondo giocatore 
-            
-
-            //sfondo pc
-            
+            //Sfondo pc           
             if (sceltaModalità == 1)
-            {
-          
+            {       
                 Console.WriteLine("                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                .:==============================:.                \r\n                :*+----------------------------+*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*+::::::::::::::::::::::::::::+*:                \r\n                .-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#-.                \r\n               .*#*+++++=#=++=#=++=#=++=*=+++++*#*:               \r\n            .:*%%##%####%###*++==+=++*%##%####%##%%*:.            \r\n          .:*%%%%%%%%%%%%%%*:.........+%%%%%%%%%%%%%%*:.          \r\n          =%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=          \r\n          :++++++++++++++++++++++++++++++++++++++++++++:          \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  ");
                 Console.WriteLine("È tempo di sfidare il computer!");      
                 SceltaPc(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
-
-
-
-
             }
             else if (sceltaModalità == 2)
-
-            {
-       
+            {     
                 Console.WriteLine("          .-@@@@@@@@-..               \r\n        .*@++@@@@@@*+@#.              \r\n       :@*%@@@@@@@@@@%*@.             \r\n       *@%@@@@@@@@@@@@@%#             \r\n      .@%@@@@@# *@@@@@@@%.            \r\n      =@@@*...   .:**#@@@=            \r\n      =@@@=.@@-  -@@.-@@@=            \r\n      =@@@=          -@@@=            \r\n      =*.@+  .-..:.  =@-+=            \r\n      =* *@=..*%%*. =@*.+=            \r\n      .%  -@@*:..:*@@-..%.            \r\n       .%@++@##%%#*@*+@#.             \r\n        ..:=@+    =@=:..:#@@@@@@#..   \r\n    .+%@@@@@@@-..-@@@**@@@%::::%@@@+. \r\n .+@@@@@@@@@@@@@@@@@#=@@*@@*::#@@-#@- \r\n:@@@@@@+@@@@@@@@@@@@-@@@=@@@@@@@@-#@@:\r\n%@@@@@@:@@@@@@@@@@@=#@%@@@%....@@@@%@*\r\n%%%%%%%:%%%%%%%%%%%:@%.@@@:    -@@@:@@\r\n                   .*@@@@=.    .=@@@@+");
                 Console.WriteLine("È tempo di sfidare un altro giocatore!");
-
                 Pedine(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
             }
-
         }
+
+        /// <summary>
+        /// Permette al giocatore di scegliere una pedina, il PC sceglie casualmente
+        /// </summary>
+        /// <param name="pedinaUno">pedina del giocatore</param>
+        /// <param name="pedinaDue">pedina del PC</param>
+        /// <param name="sceltaGiocatoreUno">scelta giocatore</param>
+        /// <param name="sceltaGiocatoreDue">scelta del PC</param>
         static void SceltaPc(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
+            //Pedine disponibili
             string tipoUno = "☺";
             string tipoDue = "♥";
             string tipoTre = "♦";
@@ -392,9 +455,11 @@ namespace Gioco_dell_oca
             string tipoCinque = "♠";
             string tipoSei = "♫";
             string tipoSette = "☼";
+            
+            //Scelta pedina player 1
             Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
-
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
+            
             switch (sceltaGiocatoreUno)
             {
                 case (1):
@@ -422,8 +487,16 @@ namespace Gioco_dell_oca
                     Console.WriteLine("hai inserito un valore non valido");
                     break;
             }
+            
+            //Scelta pedina PC (Random)
             Random rnd = new Random();
-            sceltaGiocatoreDue = rnd.Next(1, 8);
+
+            //Impedisce al PC di scegliere la stessa pedina del player 1
+            do
+            {
+                sceltaGiocatoreDue = rnd.Next(1, 8);
+            } while (sceltaGiocatoreDue == sceltaGiocatoreUno);
+            
             switch (sceltaGiocatoreDue)
             {
                 case (1):
@@ -449,12 +522,9 @@ namespace Gioco_dell_oca
                     break;
                 default:
                     break;
-
             }
+            
             Console.WriteLine("il Pc ha scelto" + sceltaGiocatoreDue);
-
-
-
         }
     }
 }

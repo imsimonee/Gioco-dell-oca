@@ -118,8 +118,9 @@ namespace Gioco_dell_oca
 
             //Scelta pedina player 1
             Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
-
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"\nGiocatore 1: hai scleto la pedina {sceltaGiocatoreUno}");
+
             switch (sceltaGiocatoreUno)
             {
                 case (1):
@@ -151,6 +152,8 @@ namespace Gioco_dell_oca
             //Scelta pedina player 2
             Console.WriteLine("Giocatore2,scegli la tua pedina, tra le seguenti:" + "1) " + tipoUno + "2) " + tipoDue + "3) " + tipoTre + "4) " + tipoQuattro + "5) " + tipoCinque + "6) " + tipoSei + "7) " + tipoSette);
             sceltaGiocatoreDue = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"\nGiocatore 2: hai scleto la pedina {sceltaGiocatoreDue}");
+
             switch (sceltaGiocatoreDue)
             {
                 case (1):
@@ -203,6 +206,7 @@ namespace Gioco_dell_oca
             //Scelta pedina player 1
             Console.WriteLine("Giocatore1,scegli la tua pedina, tra le seguenti: " + " 1) " + tipoUno + " 2) " + tipoDue + " 3) " + tipoTre + " 4) " + tipoQuattro + " 5) " + tipoCinque + " 6) " + tipoSei + " 7) " + tipoSette);
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"\nHai scleto la pedina {sceltaGiocatoreUno}");
 
             switch (sceltaGiocatoreUno)
             {
@@ -268,7 +272,7 @@ namespace Gioco_dell_oca
                     break;
             }
 
-            Console.WriteLine("il Pc ha scelto" + sceltaGiocatoreDue);
+            Console.WriteLine("il Pc ha scelto la pedina " + sceltaGiocatoreDue + "\n");
         }
 
 
@@ -408,29 +412,28 @@ namespace Gioco_dell_oca
         /// <param name="casellemancanti">caselle rimanenti al traguardo</param>
         /// <param name="posizioneUno">posizione attuale player 1</param>
         /// <param name="posizioneDue">posizione attuale player 2</param>
-        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue ,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
+        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
             {
-                
-
-                //Istruzioni
-                Console.WriteLine($"\nTurno del Giocatore 1 {!turno}.");
-                Console.WriteLine($"\nTurno del Giocatore 2 {turno}.");
-                Console.WriteLine("premi INVIO per tirare il dado");
-                Console.ReadLine();
-
                 //Lancio di due dadi (6 facce)
                 Random rnd = new Random();
                 dadoUno = rnd.Next(1, 7);
                 dadoDue = rnd.Next(1, 7);
-                tiro = dadoUno + dadoDue;
-                Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);           
+                tiro = dadoUno + dadoDue;          
                
                 //Turno del player 1
+
                 if (turno == false)
                 {
+                    //Istruzioni
+                    Console.WriteLine("\n\nTurno del Giocatore 1.");
+                    Console.WriteLine("premi INVIO per tirare il dado");
+                    Console.ReadLine();
+                    Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
+                 
+
                     posizioneUno += tiro;
 
                     //Calcolo le caselle mancati al traguardo
@@ -455,12 +458,19 @@ namespace Gioco_dell_oca
                     }
 
                     Console.WriteLine("Posizione Giocatore 1: " + posizioneUno);
+                    Console.WriteLine();
                     turno = true;
                 }
                 
                 // Turno del player 2
                 else
                 {
+                    //Istruzioni
+                    Console.WriteLine("\nTurno del Giocatore 2.");
+                    Console.WriteLine("premi INVIO per tirare il dado");
+                    Console.WriteLine("\nHai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
+                    Console.ReadLine();
+
                     posizioneUno += tiro;
 
                     //Calcolo le caselle mancati al traguardo                   

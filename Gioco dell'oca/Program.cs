@@ -32,7 +32,7 @@ namespace Gioco_dell_oca
             //Richiamo tutte le varie funzioni
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, ref pedinaUno, ref pedinaDue);
             RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);          
-            DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
+            DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, ref posizioneUno, ref posizioneDue);
 
             Console.ReadKey();
         }
@@ -427,10 +427,9 @@ namespace Gioco_dell_oca
         /// <param name="turno">turno dei giocatori</param>
         /// <param name="tiro">somma dadi</param>
         /// <param name="campo">vettore campo</param>
-        /// <param name="casellemancanti">caselle rimanenti al traguardo</param>
         /// <param name="posizioneUno">posizione attuale player 1</param>
         /// <param name="posizioneDue">posizione attuale player 2</param>
-        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, int casellemancanti, ref int posizioneUno, ref int posizioneDue)
+        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
@@ -439,7 +438,7 @@ namespace Gioco_dell_oca
                 if (turno == false)
                 {
                     //Istruzioni
-                    Console.WriteLine("\n\nTurno del Giocatore 1.");
+                    Console.WriteLine("\n\nTurno del Giocatore 1");
                     Console.WriteLine("premi INVIO per tirare il dado");
                     Console.ReadLine();
                     Console.Clear();
@@ -460,7 +459,7 @@ namespace Gioco_dell_oca
                     {
                         //Il Giocatore 1 ha vinto
                         fine = true;
-                        Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
+                        Console.WriteLine("\nIl Giocatore 1 ha vinto!");
                     }
                     //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro 
                     else if (posizioneUno > 63)
@@ -468,7 +467,7 @@ namespace Gioco_dell_oca
                         //Rimbalzo indietro
                         rimbalzo = posizioneUno - 63;
                         posizioneUno = 63 - rimbalzo;
-                        Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
+                        Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle");
                     }
 
                     //Posizione del giocatore 1
@@ -481,7 +480,7 @@ namespace Gioco_dell_oca
                 else
                 {
                     //Istruzioni
-                    Console.WriteLine("\n\nTurno del Giocatore 2.");
+                    Console.WriteLine("\n\nTurno del Giocatore 2");
                     Console.WriteLine("premi INVIO per tirare il dado");
                     Console.ReadLine();
                     Console.Clear();
@@ -501,7 +500,7 @@ namespace Gioco_dell_oca
                     {
                         //Il Giocatore 2 ha vinto
                         fine = true;
-                        Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
+                        Console.WriteLine("\nIl Giocatore 2 ha vinto!");
                     }
                     else
                     {                       
@@ -511,7 +510,7 @@ namespace Gioco_dell_oca
                             //Rimbalzo indietro
                             rimbalzo = posizioneDue - 63;
                             posizioneDue = 63 - rimbalzo;
-                            Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
+                            Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle");
                         }
                     }
 

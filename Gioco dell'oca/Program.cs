@@ -108,6 +108,7 @@ namespace Gioco_dell_oca
         /// <param name="sceltaGiocatoreDue">scelta del giocatore 2</param>
         static void SceltaPedine(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
+            //Comando che permette di visualizzare le pedine (in ascii) nella console 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             //Pedine disponibili
@@ -293,6 +294,7 @@ namespace Gioco_dell_oca
         /// <param name="pedinaDue">pedina del giocatore 2</param>
         static void RiempiCampoStringa(string[] campoStr, int posizioneUno, int posizioneDue, string pedinaUno, string pedinaDue)
         {
+            //Comando che permette di visualizzare le pedine (in ascii) nella console
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             for (int i = 0; i < campoStr.Length; i++)

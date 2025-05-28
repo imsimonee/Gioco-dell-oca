@@ -12,26 +12,24 @@ namespace Gioco_dell_oca
         static void Main(string[] args)
         {
             string sceltaMod = ""; //Scegli se giocare contro utente o pc
-            string pedinaUno = "";
-            string pedinaDue = "";
-            int sceltaGiocatoreUno = 0;
-            int sceltaGiocatoreDue = 0;
+            string pedinaUno = ""; //Pedina del giocatore 1
+            string pedinaDue = ""; //Pedina del giocatore 2/PC
+            int sceltaGiocatoreUno = 0; //Scelta del giocatore 1
+            int sceltaGiocatoreDue = 0; //Scelta del giocatore 2/PC
             int posizioneUno = 0; //Posizione player 1
             int posizioneDue = 0; //Posizione player 2
             int[] campo = new int[64]; //Vettore del campo di gioco
             int dadoUno = 0; //Dado 1
             int dadoDue = 0; //Dado 2
-            int punteggioGUno = 0;
-            int punteggioGDue = 0;
             bool turno = false; //Turno dei player
             int tiro = 0; //Tiro del dado
             int casellemancanti = 0; //Caselle mancanti per vincere
             int rimbalzo = 0; //Rimbalzo del player
             bool fine = false; //Boleano per il ciclo while
-            string[] campoStr = new string[64];
+            string[] campoStr = new string[64]; // Vettore di stringhe per il campo di gioco
             Random rnd = new Random(); //Funzione RANDOM
 
-            //Richiamo la funzione del menù di gioco
+            //Richiamo tutte le varie funzioni
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, ref pedinaUno, ref pedinaDue);
             RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);          
             DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, casellemancanti, ref posizioneUno, ref posizioneDue);
@@ -80,18 +78,19 @@ namespace Gioco_dell_oca
         /// <param name="sceltaGiocatoreDue">scelta giocatore 2</param>
         static void Modalità(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
-            int sceltaModalità;
+            int sceltaModalità = 0;
             
             Console.WriteLine("vuoi giocare contro il pc o contro un giocatore?(1(giocatore vs pc))/(2(giocatore vs giocatore))");
             sceltaModalità = Convert.ToInt32(Console.ReadLine());
 
-            //Sfondo pc           
+            //Sfondo giocatore vs pc           
             if (sceltaModalità == 1)
             {
                 Console.WriteLine("                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                .:==============================:.                \r\n                :*+----------------------------+*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*=.                          .-*:                \r\n                :*+::::::::::::::::::::::::::::+*:                \r\n                .-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#-.                \r\n               .*#*+++++=#=++=#=++=#=++=*=+++++*#*:               \r\n            .:*%%##%####%###*++==+=++*%##%####%##%%*:.            \r\n          .:*%%%%%%%%%%%%%%*:.........+%%%%%%%%%%%%%%*:.          \r\n          =%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%=          \r\n          :++++++++++++++++++++++++++++++++++++++++++++:          \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  \r\n                                                                  ");
                 Console.WriteLine("È tempo di sfidare il computer!");
                 SceltaPedinaPc(ref pedinaUno, ref pedinaDue, ref sceltaGiocatoreUno, ref sceltaGiocatoreDue);
             }
+            //Sfondo giocatore vs giocatore
             else if (sceltaModalità == 2)
             {
                 Console.WriteLine("          .-@@@@@@@@-..               \r\n        .*@++@@@@@@*+@#.              \r\n       :@*%@@@@@@@@@@%*@.             \r\n       *@%@@@@@@@@@@@@@%#             \r\n      .@%@@@@@# *@@@@@@@%.            \r\n      =@@@*...   .:**#@@@=            \r\n      =@@@=.@@-  -@@.-@@@=            \r\n      =@@@=          -@@@=            \r\n      =*.@+  .-..:.  =@-+=            \r\n      =* *@=..*%%*. =@*.+=            \r\n      .%  -@@*:..:*@@-..%.            \r\n       .%@++@##%%#*@*+@#.             \r\n        ..:=@+    =@=:..:#@@@@@@#..   \r\n    .+%@@@@@@@-..-@@@**@@@%::::%@@@+. \r\n .+@@@@@@@@@@@@@@@@@#=@@*@@*::#@@-#@- \r\n:@@@@@@+@@@@@@@@@@@@-@@@=@@@@@@@@-#@@:\r\n%@@@@@@:@@@@@@@@@@@=#@%@@@%....@@@@%@*\r\n%%%%%%%:%%%%%%%%%%%:@%.@@@:    -@@@:@@\r\n                   .*@@@@=.    .=@@@@+");
@@ -125,6 +124,7 @@ namespace Gioco_dell_oca
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine($"\nGiocatore 1: hai scleto la pedina {sceltaGiocatoreUno}");
 
+            //Scelta pedina giocatore 1
             switch (sceltaGiocatoreUno)
             {
                 case (1):
@@ -158,6 +158,7 @@ namespace Gioco_dell_oca
             sceltaGiocatoreDue = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine($"\nGiocatore 2: hai scleto la pedina {sceltaGiocatoreDue}");
 
+            //Scelta pedina player 2
             switch (sceltaGiocatoreDue)
             {
                 case (1):
@@ -212,6 +213,7 @@ namespace Gioco_dell_oca
             sceltaGiocatoreUno = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine($"\nHai scleto la pedina {sceltaGiocatoreUno}");
 
+            //Scelta pedina player 1
             switch (sceltaGiocatoreUno)
             {
                 case (1):
@@ -250,6 +252,7 @@ namespace Gioco_dell_oca
             } 
             while (sceltaGiocatoreDue == sceltaGiocatoreUno);
 
+            //Scelta della pedina del PC
             switch (sceltaGiocatoreDue)
             {
                 case (1):
@@ -428,45 +431,50 @@ namespace Gioco_dell_oca
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
-            {
-                
-
+            {               
                 //Turno del player 1
                 if (turno == false)
                 {
+                    //Istruzioni
                     Console.WriteLine("\n\nTurno del Giocatore 1.");
                     Console.WriteLine("premi INVIO per tirare il dado");
                     Console.ReadLine();
                     Console.Clear();
 
-                    //Lancio di due dadi (6 facce)
+                    //Lancio dei due dadi (6 facce)
                     Random rnd = new Random();
                     dadoUno = rnd.Next(1, 7);
                     dadoDue = rnd.Next(1, 7);
                     tiro = dadoUno + dadoDue;
 
+                    //Tiro
                     Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
 
                     posizioneUno += tiro;
 
+                    //Se il tiro dei dadi è uguale alle caselle il player 1 ha vinto
                     if (posizioneUno == 63)
                     {
+                        //Il Giocatore 1 ha vinto
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
                     }
+                    //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro 
                     else if (posizioneUno > 63)
                     {
+                        //Rimbalzo indietro
                         rimbalzo = posizioneUno - 63;
                         posizioneUno = 63 - rimbalzo;
                         Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                     }
 
+                    //Posizione del giocatore 1
                     Console.WriteLine("Posizione Giocatore 1: " + posizioneUno);
                     Console.WriteLine();
                     turno = true;
                 }
 
-                // Turno del player 2
+                //Turno del player 2
                 else
                 {
                     //Istruzioni
@@ -475,33 +483,36 @@ namespace Gioco_dell_oca
                     Console.ReadLine();
                     Console.Clear();
 
-                    //Lancio di due dadi (6 facce)
+                    //Lancio dei due dadi (6 facce)
                     Random rnd = new Random();
                     dadoUno = rnd.Next(1, 7);
                     dadoDue = rnd.Next(1, 7);
                     tiro = dadoUno + dadoDue;
 
+                    //Tiro
                     Console.WriteLine("\nHai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
-
                     posizioneDue += tiro;
 
                     //Se il tiro dei dadi è uguale alle caselle il player 2 ha vinto
                     if (posizioneDue == 63)
                     {
+                        //Il Giocatore 2 ha vinto
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
                     }
                     else
                     {                       
-                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro                        
+                        //Se il tiro dei dadi è maggiore delle caselle il player 2 rimbalza indietro                        
                         if (posizioneDue > 63)
                         {
+                            //Rimbalzo indietro
                             rimbalzo = posizioneDue - 63;
                             posizioneDue = 63 - rimbalzo;
                             Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                         }
                     }
 
+                    //Posizione del giocatore 2
                     Console.WriteLine("Posizione Giocatore 2: " + posizioneDue);
                     turno = false;
                 }

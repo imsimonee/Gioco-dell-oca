@@ -429,52 +429,43 @@ namespace Gioco_dell_oca
             //Ciclo per spostarsi di caselle
             while (!fine)
             {
-                //Lancio di due dadi (6 facce)
-                Random rnd = new Random();
-                dadoUno = rnd.Next(1, 7);
-                dadoDue = rnd.Next(1, 7);
-                tiro = dadoUno + dadoDue;          
-               
-                //Turno del player 1
+                
 
+                //Turno del player 1
                 if (turno == false)
                 {
-                    //Istruzioni
                     Console.WriteLine("\n\nTurno del Giocatore 1.");
                     Console.WriteLine("premi INVIO per tirare il dado");
                     Console.ReadLine();
                     Console.Clear();
+
+                    //Lancio di due dadi (6 facce)
+                    Random rnd = new Random();
+                    dadoUno = rnd.Next(1, 7);
+                    dadoDue = rnd.Next(1, 7);
+                    tiro = dadoUno + dadoDue;
+
                     Console.WriteLine("Hai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
-                 
 
                     posizioneUno += tiro;
 
-                    //Calcolo le caselle mancati al traguardo
-                    casellemancanti = campoStr.Length - 1 - posizioneUno;
-                    
-                    //Se il tiro dei dadi è uguale alle caselle il player 1 ha vinto
-                    if (tiro == casellemancanti)
+                    if (posizioneUno == 63)
                     {
-                        posizioneUno = campoStr.Length - 1;
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 1 ha VINTO!");
                     }
-                    else
-                    {                  
-                        //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro
-                        if (posizioneUno > campoStr.Length - 1)
-                        {
-                            rimbalzo = posizioneUno - (campoStr.Length - 1);
-                            posizioneUno = campoStr.Length - 1 - rimbalzo;
-                            Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
-                        }
+                    else if (posizioneUno > 63)
+                    {
+                        rimbalzo = posizioneUno - 63;
+                        posizioneUno = 63 - rimbalzo;
+                        Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                     }
 
                     Console.WriteLine("Posizione Giocatore 1: " + posizioneUno);
                     Console.WriteLine();
                     turno = true;
                 }
-                
+
                 // Turno del player 2
                 else
                 {
@@ -483,27 +474,30 @@ namespace Gioco_dell_oca
                     Console.WriteLine("premi INVIO per tirare il dado");
                     Console.ReadLine();
                     Console.Clear();
-                    Console.WriteLine("\nHai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro); 
+
+                    //Lancio di due dadi (6 facce)
+                    Random rnd = new Random();
+                    dadoUno = rnd.Next(1, 7);
+                    dadoDue = rnd.Next(1, 7);
+                    tiro = dadoUno + dadoDue;
+
+                    Console.WriteLine("\nHai tirato: " + dadoUno + " + " + dadoDue + " = " + tiro);
 
                     posizioneDue += tiro;
 
-                    //Calcolo le caselle mancati al traguardo                   
-                    casellemancanti = campoStr.Length - 1 - posizioneDue;
-                    
                     //Se il tiro dei dadi è uguale alle caselle il player 2 ha vinto
-                    if (tiro == casellemancanti)
+                    if (posizioneDue == 63)
                     {
-                        posizioneDue = campoStr.Length -1;
                         fine = true;
                         Console.WriteLine("\nIl Giocatore 2 ha VINTO!");
                     }
                     else
                     {                       
                         //Se il tiro dei dadi è maggiore delle caselle il player 1 rimbalza indietro                        
-                        if (posizioneDue > campoStr.Length - 1)
+                        if (posizioneDue > 63)
                         {
-                            rimbalzo = posizioneUno - (campoStr.Length - 1);
-                            posizioneDue = campoStr.Length - 1 - rimbalzo;
+                            rimbalzo = posizioneDue - 63;
+                            posizioneDue = 63 - rimbalzo;
                             Console.WriteLine($"Hai superato la casella 63! Rimbalzi indietro di {rimbalzo} caselle.");
                         }
                     }

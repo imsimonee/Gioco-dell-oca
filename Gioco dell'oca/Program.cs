@@ -198,6 +198,7 @@ namespace Gioco_dell_oca
         /// <param name="sceltaGiocatoreDue">scelta del PC</param>
         static void SceltaPedinaPc(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
+            //Comando che permette di visualizzare le pedine (in ascii) nella console
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             //Pedine disponibili

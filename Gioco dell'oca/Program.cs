@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,8 +32,8 @@ namespace Gioco_dell_oca
 
             //Richiamo tutte le varie funzioni
             Menù(sceltaGiocatoreUno, sceltaGiocatoreDue, ref pedinaUno, ref pedinaDue);
-            RiempiCampoStringa(campoStr ,posizioneUno, posizioneDue,  pedinaUno, pedinaDue);          
-            DadoEdAvanzamento(campoStr, pedinaUno,pedinaDue,dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, ref posizioneUno, ref posizioneDue);
+            RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
+            DadoEdAvanzamento(campoStr, pedinaUno, pedinaDue, dadoUno, dadoDue, rimbalzo, fine, turno, tiro, campo, ref posizioneUno, ref posizioneDue);
 
             Console.ReadKey();
         }
@@ -79,7 +80,7 @@ namespace Gioco_dell_oca
         static void Modalità(ref string pedinaUno, ref string pedinaDue, ref int sceltaGiocatoreUno, ref int sceltaGiocatoreDue)
         {
             int sceltaModalità = 0;
-            
+
             Console.WriteLine("vuoi giocare contro il pc o contro un giocatore?(1(giocatore vs pc))/(2(giocatore vs giocatore))");
             sceltaModalità = Convert.ToInt32(Console.ReadLine());
 
@@ -251,7 +252,7 @@ namespace Gioco_dell_oca
             do
             {
                 sceltaGiocatoreDue = rnd.Next(1, 8);
-            } 
+            }
             while (sceltaGiocatoreDue == sceltaGiocatoreUno);
 
             //Scelta della pedina del PC
@@ -328,12 +329,38 @@ namespace Gioco_dell_oca
         /// <param name="posizioneDue">posizione giocatore 2</param>
         /// <param name="dadoUno">valore del primo dado</param>
         /// <param name="dadoDue">valore del secondo dado</param>
-        static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue)
+        static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue,ref bool turno)
         {
-            if(posizioneUno==31)
-            {
-                
+            bool bloccatoUno = false; //Variabile per bloccare il giocatore 1
+            bool bloccatoDue = false; //Variabile per bloccare il giocatore 2
+            if ((posizioneUno == 52 && posizioneDue == 31) || (posizioneUno == 31 && posizioneDue == 52)
+                {
+                Console.WriteLine("Entrambi i giocatori sono bloccati!"); //Messaggio di blocco
+                posizioneUno = 1;
+                posizioneDue=1; //Entrambi i giocatori tornano alla casella di partenza
             }
+            if (bloccatoUno == true)
+            {
+                Console.WriteLine("sei bloccato");
+                posizioneUno = posizioneUno - dadoUno; //Il giocatore 1 non può avanzare
+                if(posizioneDue==31)
+                {
+                    Console.WriteLine("sei stato liberato!");
+                    bloccatoUno = false; //Il giocatore 1 non è più bloccato
+                }
+            }
+            else if (bloccatoDue == true)
+            {
+                Console.WriteLine("sei bloccato");
+                posizioneDue = posizioneDue - dadoDue; //Il giocatore 2 non può avanzare
+                if (posizioneUno == 31)
+                {
+                    Console.WriteLine("sei stato liberato!");
+                    bloccatoDue = false; //Il giocatore 2 non è più bloccato
+                }
+               
+            }
+
             //Casella ponte avanza alla casella 12
             if (posizioneUno == 6)
             {
@@ -384,6 +411,25 @@ namespace Gioco_dell_oca
                 Console.WriteLine();
                 posizioneDue += 0;
             }
+            if (posizioneUno == 31)
+            {
+                Console.WriteLine("Console.WriteLine(\"\\r\\n\\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                         .-*@@@@@@@@@@@@*-                                          \\r\\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \\r\\n                               .:@@@@@@@#-                -%@@@@@@@:                                \\r\\n                             .@@@@@%-                          -%@@@@@.                             \\r\\n                           -@@@@%.                                .%@@@@-                           \\r\\n                         :@@@@=                                      =@@@@:                         \\r\\n                       .%@@@-                                          -@@@%.                       \\r\\n                      :@@@*                                              *@@@:                      \\r\\n                     +@@@:                                                :@@@+                     \\r\\n                    *@@@.                                                  .@@@*                    \\r\\n                   =@@@.                                                    .@@@=                   \\r\\n                  .@@@                                                        @@@.                  \\r\\n                  @@@-                                                        :@@@                  \\r\\n                 =@@@                                                          %@@=                 \\r\\n                 @@@-                                                          :@@@                 \\r\\n                :@@@.                                                           @@@:                \\r\\n                +@@#                                                            #@@*                \\r\\n                #@@+                                                            =@@#                \\r\\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \\r\\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \\r\\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \\r\\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \\r\\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \\r\\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \\r\\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \\r\\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \\r\\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \\r\\n                -@@%                          =@@@@@@+                          %@@-                \\r\\n                *@@*                         .@@@@@@@@.                         *@@*                \\r\\n                +@@#                         +@@@@@@@@+                         *@@*                \\r\\n                :@@@                         %@@@@@@@@%                         %@@:                \\r\\n                 @@@+                        .@@@::@@@.                        +@@@                 \\r\\n                  @@@@                                                        @@@@                  \\r\\n                   +@@@@*.                                                .*@@@@*                   \\r\\n                     =@@@@@+.                                          .+@@@@@=                     \\r\\n                        =@@@@*                                        +@@@@=                        \\r\\n                          .@@@%                                      %@@@.                          \\r\\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \\r\\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \\r\\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \\r\\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \\r\\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \\r\\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \\r\\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \\r\\n                                        .@@@@@@*.  .*@@@@@@.                                        \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n\\r\\n\");");
+
+                Console.WriteLine("sei sulla casella ponte devi aspettare che un altro giocatore si blocchi qua");
+                Console.WriteLine("MALUS:Sei sulla casella pozzo resti bloccato qui finchè un giocatore non capista su questa casella");
+                bloccatoUno = true; //Blocco il giocatore 1
+                turno = true;
+            }
+            else if (posizioneDue == 31)
+            {
+                Console.WriteLine("Console.WriteLine(\"\\r\\n\\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                         .-*@@@@@@@@@@@@*-                                          \\r\\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \\r\\n                               .:@@@@@@@#-                -%@@@@@@@:                                \\r\\n                             .@@@@@%-                          -%@@@@@.                             \\r\\n                           -@@@@%.                                .%@@@@-                           \\r\\n                         :@@@@=                                      =@@@@:                         \\r\\n                       .%@@@-                                          -@@@%.                       \\r\\n                      :@@@*                                              *@@@:                      \\r\\n                     +@@@:                                                :@@@+                     \\r\\n                    *@@@.                                                  .@@@*                    \\r\\n                   =@@@.                                                    .@@@=                   \\r\\n                  .@@@                                                        @@@.                  \\r\\n                  @@@-                                                        :@@@                  \\r\\n                 =@@@                                                          %@@=                 \\r\\n                 @@@-                                                          :@@@                 \\r\\n                :@@@.                                                           @@@:                \\r\\n                +@@#                                                            #@@*                \\r\\n                #@@+                                                            =@@#                \\r\\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \\r\\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \\r\\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \\r\\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \\r\\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \\r\\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \\r\\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \\r\\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \\r\\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \\r\\n                -@@%                          =@@@@@@+                          %@@-                \\r\\n                *@@*                         .@@@@@@@@.                         *@@*                \\r\\n                +@@#                         +@@@@@@@@+                         *@@*                \\r\\n                :@@@                         %@@@@@@@@%                         %@@:                \\r\\n                 @@@+                        .@@@::@@@.                        +@@@                 \\r\\n                  @@@@                                                        @@@@                  \\r\\n                   +@@@@*.                                                .*@@@@*                   \\r\\n                     =@@@@@+.                                          .+@@@@@=                     \\r\\n                        =@@@@*                                        +@@@@=                        \\r\\n                          .@@@%                                      %@@@.                          \\r\\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \\r\\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \\r\\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \\r\\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \\r\\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \\r\\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \\r\\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \\r\\n                                        .@@@@@@*.  .*@@@@@@.                                        \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n\\r\\n\");");
+
+                Console.WriteLine("sei sulla casella ponte devi aspettare che un altro giocatore si blocchi qua");
+                Console.WriteLine("MALUS:Sei sulla casella pozzo resti bloccato qui finchè un giocatore non capita su questa casella");
+
+                bloccatoDue = true; //Blocco il giocatore 2
+                turno = false;
+            }
 
             //Casella labirinto torna alla casella 39
             if (posizioneUno == 42)
@@ -400,6 +446,26 @@ namespace Gioco_dell_oca
                 Console.WriteLine();
                 posizioneDue -= 3;
             }
+            if (posizioneUno == 52)
+            {
+                Console.WriteLine("Console.WriteLine(\"\\r\\n\\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                         .-*@@@@@@@@@@@@*-                                          \\r\\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \\r\\n                               .:@@@@@@@#-                -%@@@@@@@:                                \\r\\n                             .@@@@@%-                          -%@@@@@.                             \\r\\n                           -@@@@%.                                .%@@@@-                           \\r\\n                         :@@@@=                                      =@@@@:                         \\r\\n                       .%@@@-                                          -@@@%.                       \\r\\n                      :@@@*                                              *@@@:                      \\r\\n                     +@@@:                                                :@@@+                     \\r\\n                    *@@@.                                                  .@@@*                    \\r\\n                   =@@@.                                                    .@@@=                   \\r\\n                  .@@@                                                        @@@.                  \\r\\n                  @@@-                                                        :@@@                  \\r\\n                 =@@@                                                          %@@=                 \\r\\n                 @@@-                                                          :@@@                 \\r\\n                :@@@.                                                           @@@:                \\r\\n                +@@#                                                            #@@*                \\r\\n                #@@+                                                            =@@#                \\r\\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \\r\\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \\r\\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \\r\\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \\r\\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \\r\\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \\r\\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \\r\\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \\r\\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \\r\\n                -@@%                          =@@@@@@+                          %@@-                \\r\\n                *@@*                         .@@@@@@@@.                         *@@*                \\r\\n                +@@#                         +@@@@@@@@+                         *@@*                \\r\\n                :@@@                         %@@@@@@@@%                         %@@:                \\r\\n                 @@@+                        .@@@::@@@.                        +@@@                 \\r\\n                  @@@@                                                        @@@@                  \\r\\n                   +@@@@*.                                                .*@@@@*                   \\r\\n                     =@@@@@+.                                          .+@@@@@=                     \\r\\n                        =@@@@*                                        +@@@@=                        \\r\\n                          .@@@%                                      %@@@.                          \\r\\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \\r\\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \\r\\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \\r\\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \\r\\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \\r\\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \\r\\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \\r\\n                                        .@@@@@@*.  .*@@@@@@.                                        \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n\\r\\n\");");
+
+                Console.WriteLine("sei sulla casella prigione devi aspettare che un altro giocatore si blocchi qua");
+                Console.WriteLine("MALUS:Sei sulla casella prigione resti bloccato qui finchè un giocatore non capista su questa casella");
+                bloccatoUno = true; //Blocco il giocatore 1
+                turno = true;
+            }
+            else if (posizioneDue == 52)
+            {
+                Console.WriteLine("Console.WriteLine(\"\\r\\n\\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                         .-*@@@@@@@@@@@@*-                                          \\r\\n                                   .-@@@@@@@@@@@@@@@@@@@@@@@@@@-.                                   \\r\\n                               .:@@@@@@@#-                -%@@@@@@@:                                \\r\\n                             .@@@@@%-                          -%@@@@@.                             \\r\\n                           -@@@@%.                                .%@@@@-                           \\r\\n                         :@@@@=                                      =@@@@:                         \\r\\n                       .%@@@-                                          -@@@%.                       \\r\\n                      :@@@*                                              *@@@:                      \\r\\n                     +@@@:                                                :@@@+                     \\r\\n                    *@@@.                                                  .@@@*                    \\r\\n                   =@@@.                                                    .@@@=                   \\r\\n                  .@@@                                                        @@@.                  \\r\\n                  @@@-                                                        :@@@                  \\r\\n                 =@@@                                                          %@@=                 \\r\\n                 @@@-                                                          :@@@                 \\r\\n                :@@@.                                                           @@@:                \\r\\n                +@@#                                                            #@@*                \\r\\n                #@@+                                                            =@@#                \\r\\n                #@@-          .*@@@@@%-                      :%@@@@@*.          -@@%                \\r\\n                #@@-         @@@@@@@@@@@:                  :@@@@@@@@@@@         :@@%                \\r\\n                #@@-       .@@@@@@@@@@@@@:                :@@@@@@@@@@@@@.       -@@#                \\r\\n                #@@+       %@@@@@@@@@@@@@@                @@@@@@@@@@@@@@%       =@@#                \\r\\n                *@@*      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      *@@*                \\r\\n                -@@#      .@@@@@@@@@@@@@@@                @@@@@@@@@@@@@@@.      #@@=                \\r\\n                .@@@.      =@@@@@@@@@@@@@.                .@@@@@@@@@@@@@=      .@@@:                \\r\\n                 @@@:       =@@@@@@@@@@%.       .++.       .%@@@@@@@@@@=       :@@@                 \\r\\n                 @@@=         =@@@@@@#         *@@@@*         #@@@@@@=         =@@@                 \\r\\n                -@@%                          =@@@@@@+                          %@@-                \\r\\n                *@@*                         .@@@@@@@@.                         *@@*                \\r\\n                +@@#                         +@@@@@@@@+                         *@@*                \\r\\n                :@@@                         %@@@@@@@@%                         %@@:                \\r\\n                 @@@+                        .@@@::@@@.                        +@@@                 \\r\\n                  @@@@                                                        @@@@                  \\r\\n                   +@@@@*.                                                .*@@@@*                   \\r\\n                     =@@@@@+.                                          .+@@@@@=                     \\r\\n                        =@@@@*                                        +@@@@=                        \\r\\n                          .@@@%                                      %@@@.                          \\r\\n                           .@@@.      @@%.      -@@-      .%@@      .@@@.                           \\r\\n                           .%@@:     .@@@.      *@@*      .@@@.     :@@%                            \\r\\n                            *@@#     *@@+       *@@*       *@@*     #@@*                            \\r\\n                             @@@@:   @@@-       *@@*       -@@@   :@@@@                             \\r\\n                              =@@@@@@@@@.       *@@*       .@@@@@@@@@=                              \\r\\n                                :#@@@@@@@.      #@@#      .@@@@@@@#:                                \\r\\n                                      +@@@@@@@@@@@@@@@@@@@@@@+                                      \\r\\n                                        .@@@@@@*.  .*@@@@@@.                                        \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n                                                                                                    \\r\\n\\r\\n\");");
+
+                Console.WriteLine("sei sulla casella prigione devi aspettare che un altro giocatore si blocchi qua");
+                Console.WriteLine("MALUS:Sei sulla casella pozzo prigione bloccato qui finchè un giocatore non capita su questa casella");
+
+                bloccatoDue = true; //Blocco il giocatore 2
+                turno = false;
+            }
+
 
             //Casella scheletro ritorna all'inizio
             if (posizioneUno == 58)
@@ -433,11 +499,11 @@ namespace Gioco_dell_oca
         /// <param name="campo">vettore campo</param>
         /// <param name="posizioneUno">posizione attuale player 1</param>
         /// <param name="posizioneDue">posizione attuale player 2</param>
-        static void DadoEdAvanzamento(string[] campoStr,string pedinaUno,string pedinaDue,int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, ref int posizioneUno, ref int posizioneDue)
+        static void DadoEdAvanzamento(string[] campoStr, string pedinaUno, string pedinaDue, int dadoUno, int dadoDue, int rimbalzo, bool fine, bool turno, int tiro, int[] campo, ref int posizioneUno, ref int posizioneDue)
         {
             //Ciclo per spostarsi di caselle
             while (!fine)
-            {               
+            {
                 //Turno del player 1
                 if (turno == false)
                 {
@@ -507,7 +573,7 @@ namespace Gioco_dell_oca
                         Console.WriteLine("\nIl Giocatore 2 ha vinto!");
                     }
                     else
-                    {                       
+                    {
                         //Se il tiro dei dadi è maggiore delle caselle il player 2 rimbalza indietro                        
                         if (posizioneDue > 63)
                         {
@@ -522,10 +588,10 @@ namespace Gioco_dell_oca
                     Console.WriteLine("Posizione Giocatore 2: " + posizioneDue);
                     turno = false;
                 }
-                
-                BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue);
-                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);              
+
+                BonusEMalus(ref posizioneUno, ref posizioneDue, ref dadoUno, ref dadoDue,ref turno);
+                RiempiCampoStringa(campoStr, posizioneUno, posizioneDue, pedinaUno, pedinaDue);
             }
-        }        
+        }
     }
 }

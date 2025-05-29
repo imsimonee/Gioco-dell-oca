@@ -330,6 +330,10 @@ namespace Gioco_dell_oca
         /// <param name="dadoDue">valore del secondo dado</param>
         static void BonusEMalus(ref int posizioneUno, ref int posizioneDue, ref int dadoUno, ref int dadoDue)
         {
+            if(posizioneUno==31)
+            {
+                
+            }
             //Casella ponte avanza alla casella 12
             if (posizioneUno == 6)
             {
